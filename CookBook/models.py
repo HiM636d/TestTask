@@ -31,3 +31,6 @@ class Quantities(models.Model):
     products = models.ForeignKey(ProductList , on_delete=models.CASCADE)   
     recipe = models.ForeignKey(RecipeList ,on_delete=models.CASCADE)
     quantity_in_grams = models.IntegerField(default=1)
+
+    class Meta:
+        unique_together=['products','recipe']
