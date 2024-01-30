@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import ProductList,RecipeList,Quantities 
 from django.db import transaction 
-
+from django.db.models import F
 
 def Add_product_to_recipe(request):
     product_id=request.GET.get('product_id')
@@ -18,7 +18,7 @@ def Cook_recipe(request):
     with transaction.atomic():      
         recipe_id=request.GET.get('recipe_id')
         Cooked= RecipeList.objects.get(id=recipe_id)
-        Cooked.amount_cooked +=1
+        Cooked.amount_cooked = F('amount_cooked') + 1  #The F class instructs the database to increment the field without pulling it, avoiding race condition
         Cooked.save()
 
 
